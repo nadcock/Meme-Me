@@ -102,8 +102,8 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     // Share button
     @IBAction func share (sender: UIBarButtonItem) {
         view.endEditing(true)
-        var meme = Meme(top: topTextField.text, bottom: bottomTextField.text, image: imageViewImage!.image)
-        var memedImage = meme.generateMeme()
+        let meme = Meme(top: topTextField.text, bottom: bottomTextField.text, image: imageViewImage!.image)
+        let memedImage = meme.generateMeme()
         let activityController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         activityController.completionWithItemsHandler = {activity, completed, items, error in
             if !completed {
@@ -130,7 +130,7 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
                 imageViewImage!.image = image
         }
@@ -178,14 +178,14 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         return false
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         view.endEditing(true)
     }
     
     // Saves the meme to array of memes in app delegate
     func save() {
         //Create the meme
-        var meme = Meme(top: topTextField.text, bottom: bottomTextField.text, image: imageViewImage!.image)
+        let meme = Meme(top: topTextField.text, bottom: bottomTextField.text, image: imageViewImage!.image)
         if EditMode == true {
             (UIApplication.sharedApplication().delegate as! AppDelegate).memes[memeIndex] = (meme)
         } else {

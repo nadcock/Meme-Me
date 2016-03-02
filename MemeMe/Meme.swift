@@ -42,15 +42,15 @@ struct Meme {
         image.drawInRect(CGRectMake(0, 0, image.size.width, image.size.height))
         
         // Creating a point within the space that is as bit as the image.
-        var topRect: CGRect = CGRectMake(topRectOrigin.x, topRectOrigin.y + image.size.height * 0.05 , image.size.width, image.size.height/2.0)
-        var bottomRect: CGRect = CGRectMake(bottomRectOrigin.x, bottomRectOrigin.y - bottomStringSize.height - image.size.height * 0.05, image.size.width, image.size.height/2.0)
+        let topRect: CGRect = CGRectMake(topRectOrigin.x, topRectOrigin.y + image.size.height * 0.05 , image.size.width, image.size.height/2.0)
+        let bottomRect: CGRect = CGRectMake(bottomRectOrigin.x, bottomRectOrigin.y - bottomStringSize.height - image.size.height * 0.05, image.size.width, image.size.height/2.0)
         
         //Now Draw the text into an image.
         top.drawInRect(topRect, withAttributes: textFontAttributes)
         bottom.drawInRect(bottomRect, withAttributes: textFontAttributes)
         
         // Create a new image out of the images created
-        var newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         
         // End the context
         UIGraphicsEndImageContext()
