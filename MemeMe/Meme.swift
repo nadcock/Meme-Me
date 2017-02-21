@@ -22,35 +22,35 @@ struct Meme {
         UIGraphicsBeginImageContext(image.size)
         
         let paraStyle = NSMutableParagraphStyle()
-        paraStyle.alignment = NSTextAlignment.Center
+        paraStyle.alignment = NSTextAlignment.center
         
         //Setups up the font attributes that will be later used to dictate how the text should be drawn
         let textFontAttributes = [
-            NSStrokeColorAttributeName : UIColor.blackColor(),
-            NSForegroundColorAttributeName : UIColor.whiteColor(),
+            NSStrokeColorAttributeName : UIColor.black,
+            NSForegroundColorAttributeName : UIColor.white,
             NSParagraphStyleAttributeName: paraStyle,
         
             NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: image.size.height / 10)!,
-            NSStrokeWidthAttributeName : NSNumber(float: -3.0)
+            NSStrokeWidthAttributeName : NSNumber(value: -3.0 as Float)
         ]
         
         // Finds the size of the rect the text will draw with the attributes
-        let topStringSize = top.boundingRectWithSize(CGSizeMake(image.size.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size
-        let bottomStringSize = bottom.boundingRectWithSize(CGSizeMake(image.size.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size
+        let topStringSize = top.boundingRect(with: CGSize(width: image.size.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size
+        let bottomStringSize = bottom.boundingRect(with: CGSize(width: image.size.width, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size
         
         //Put the image into a rectangle as large as the original image.
-        image.drawInRect(CGRectMake(0, 0, image.size.width, image.size.height))
+        image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
         
         // Creating a point within the space that is as bit as the image.
-        var topRect: CGRect = CGRectMake(topRectOrigin.x, topRectOrigin.y + image.size.height * 0.05 , image.size.width, image.size.height/2.0)
-        var bottomRect: CGRect = CGRectMake(bottomRectOrigin.x, bottomRectOrigin.y - bottomStringSize.height - image.size.height * 0.05, image.size.width, image.size.height/2.0)
+        let topRect: CGRect = CGRect(x: topRectOrigin.x, y: topRectOrigin.y + image.size.height * 0.05 , width: image.size.width, height: image.size.height/2.0)
+        let bottomRect: CGRect = CGRect(x: bottomRectOrigin.x, y: bottomRectOrigin.y - bottomStringSize.height - image.size.height * 0.05, width: image.size.width, height: image.size.height/2.0)
         
         //Now Draw the text into an image.
-        top.drawInRect(topRect, withAttributes: textFontAttributes)
-        bottom.drawInRect(bottomRect, withAttributes: textFontAttributes)
+        top.draw(in: topRect, withAttributes: textFontAttributes)
+        bottom.draw(in: bottomRect, withAttributes: textFontAttributes)
         
         // Create a new image out of the images created
-        var newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         
         // End the context
         UIGraphicsEndImageContext()
