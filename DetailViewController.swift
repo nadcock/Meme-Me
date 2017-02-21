@@ -19,9 +19,11 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         let editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.edit))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         let deleteButton = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.deleteButton))
+
         
         bottomToolbar.items?.append(editButton)
         bottomToolbar.items?.append(flexSpace)
@@ -39,6 +41,7 @@ class DetailViewController: UIViewController {
     
     //called when delete button pressed
     func deleteButton () {
+
         let deleteConfirm = UIAlertController(title: "Confirm Delete", message: "Are you sure you want to permanently delete this meme?", preferredStyle: UIAlertControllerStyle.actionSheet)
         deleteConfirm.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
             self.delete()

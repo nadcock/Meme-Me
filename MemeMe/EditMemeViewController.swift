@@ -132,6 +132,7 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
                 imageViewImage!.image = image
         }
@@ -179,7 +180,6 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         return false
     }
 
-    
     
     // Saves the meme to array of memes in app delegate
     func save() {
