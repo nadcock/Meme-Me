@@ -16,13 +16,13 @@ class MemeTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let object = UIApplication.sharedApplication().delegate
+        let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         memes = appDelegate.memes
     }
     
-    override func viewDidAppear(animated: Bool) {
-        let object = UIApplication.sharedApplication().delegate
+    override func viewDidAppear(_ animated: Bool) {
+        let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         memes = appDelegate.memes
         tableView.reloadData()
@@ -33,19 +33,19 @@ class MemeTableViewController: UITableViewController {
     }
 
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         return memes.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MemeCell") as! TableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MemeCell") as! TableViewCell
         let meme = memes[indexPath.row]
 
         cell.cellLabel.text = meme.top + "..." + meme.bottom
@@ -54,26 +54,26 @@ class MemeTableViewController: UITableViewController {
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "SegueSelectedMeme" {
-            let destinationVC = segue.destinationViewController as! DetailViewController
+            let destinationVC = segue.destination as! DetailViewController
             destinationVC.meme = memes[selectedMeme]
             destinationVC.memeIndex = selectedMeme
         } else if segue.identifier == "SegueAddMeme" {
-            let navController = segue.destinationViewController as! UINavigationController
+            let navController = segue.destination as! UINavigationController
             let destinationVC = navController.childViewControllers[0] as! EditMemeViewController
             destinationVC.EditMode = false
         }
     }
     
 
-    @IBAction func AddMeme(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("SegueAddMeme", sender: self)
+    @IBAction func AddMeme(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "SegueAddMeme", sender: self)
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedMeme = indexPath.row
-        performSegueWithIdentifier("SegueSelectedMeme", sender: self)
+        performSegue(withIdentifier: "SegueSelectedMeme", sender: self)
     }
 }

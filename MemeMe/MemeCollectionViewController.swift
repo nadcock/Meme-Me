@@ -19,10 +19,10 @@ class MemeCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
 
         // Register cell classes
-        collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
-        let object = UIApplication.sharedApplication().delegate
+        let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         memes = appDelegate.memes
     }
@@ -31,25 +31,25 @@ class MemeCollectionViewController: UICollectionViewController {
         super.didReceiveMemoryWarning()
     }
 
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         //#warning Incomplete method implementation -- Return the number of sections
         return 1
     }
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //#warning Incomplete method implementation -- Return the number of items in the section
         return memes.count
     }
     
-    override func viewDidAppear(animated: Bool) {
-        let object = UIApplication.sharedApplication().delegate
+    override func viewDidAppear(_ animated: Bool) {
+        let object = UIApplication.shared.delegate
         let appDelegate = object as! AppDelegate
         memes = appDelegate.memes
         collectionView?.reloadData()
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MemeCell", forIndexPath: indexPath) as! MemeCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MemeCell", for: indexPath) as! MemeCollectionViewCell
         let meme = memes[indexPath.item]
         
         cell.backgroundImage.image = meme.generateMeme()
@@ -57,25 +57,25 @@ class MemeCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "SegueSelectedMeme" {
-            let destinationVC = segue.destinationViewController as! DetailViewController
+            let destinationVC = segue.destination as! DetailViewController
             destinationVC.meme = memes[selectedMeme]
             destinationVC.memeIndex = selectedMeme
         } else if segue.identifier == "SegueAddMeme" {
-            let navController = segue.destinationViewController as! UINavigationController
+            let navController = segue.destination as! UINavigationController
             let destinationVC = navController.childViewControllers[0] as! EditMemeViewController
             destinationVC.EditMode = false
         }
     }
     
-    @IBAction func AddMeme(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("SegueAddMeme", sender: self)
+    @IBAction func AddMeme(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "SegueAddMeme", sender: self)
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedMeme = indexPath.row
-        performSegueWithIdentifier("SegueSelectedMeme", sender: self)
+        performSegue(withIdentifier: "SegueSelectedMeme", sender: self)
     }
 }
