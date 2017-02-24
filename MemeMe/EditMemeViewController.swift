@@ -146,17 +146,24 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         dismiss(animated: true, completion: nil)
     }
     
-    func keyboardWillShow(_ notification: Notification) {
+    func shiftViewForKeyboard(_ notification: Notification) {
         if (bottomTextField.isFirstResponder){
-            view.frame.origin.y -= getKeyboardHeight(notification)
+            if notification.name == Notification.Name.UIKeyboardWillHide {
+                view.frame.origin.y = 0
+                //print("\n\n UIKeyboardWillHide \n\n")
+            } else {
+                view.frame.origin.y = 0 - getKeyboardHeight(notification)
+                //print("\n\n UIKeyboardWiilChangeFrame \n\n")
+            }
+            
         }
     }
     
-    func keyboardWillHide(_ notification: Notification) {
-        if (bottomTextField.isFirstResponder){
-            view.frame.origin.y += getKeyboardHeight(notification)
-        }
-    }
+//    func keyboardWillHide(_ notification: Notification) {
+//        if (bottomTextField.isFirstResponder){
+//            
+//        }
+//    }
     
     func getKeyboardHeight(_ notification: Notification) -> CGFloat {
         let userInfo = notification.userInfo
@@ -165,8 +172,8 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     func subscribeToKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.shiftViewForKeyboard(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.shiftViewForKeyboard(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {
