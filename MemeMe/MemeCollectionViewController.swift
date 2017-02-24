@@ -71,6 +71,7 @@ class MemeCollectionViewController: UICollectionViewController, NSFetchedResults
         if let sections = fetchedResultsController.sections {
             let currentSection = sections[section]
             if currentSection.numberOfObjects > 0 {
+                self.collectionView?.backgroundView = nil
                 return currentSection.numberOfObjects
             } else {
                 let notificationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
