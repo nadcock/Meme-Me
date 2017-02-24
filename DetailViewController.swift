@@ -11,7 +11,6 @@ import UIKit
 class DetailViewController: UIViewController {
     
     var meme: Meme?
-    var memeIndex: Int?
     
     @IBOutlet var bottomToolbar: UIToolbar!
     @IBOutlet var memeImage: UIImageView!
@@ -29,9 +28,33 @@ class DetailViewController: UIViewController {
         bottomToolbar.items?.append(flexSpace)
         bottomToolbar.items?.append(deleteButton)
         
-        memeImage.image = meme?.generateMeme()
+        guard let meme = meme else {
+            let alertController = UIAlertController(title: "Meme not found", message: "That meme could not be found!", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            alertController.addAction(OKAction)
+            self.present(alertController, animated: true) {}
+            return
+        }
+        
+        memeImage.image = UIImage(data: meme.memeImage)
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let meme = meme else {
+            let alertController = UIAlertController(title: "Meme not found", message: "That meme could not be found!", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            alertController.addAction(OKAction)
+            self.present(alertController, animated: true) {}
+            return
+        }
+        
+        memeImage.image = UIImage(data: meme.memeImage)
     }
     
     //called when edit button pressed
@@ -54,8 +77,10 @@ class DetailViewController: UIViewController {
     
     //deletes meme from meme array and then returns to previous view
     func delete() {
-        (UIApplication.shared.delegate as! AppDelegate).memes.remove(at: memeIndex!)
-        navigationController?.popViewController(animated: true)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.persistentContainer.viewContext.delete(meme!)
+        appDelegate.saveContext()
+        _ = navigationController?.popViewController(animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,7 +94,7 @@ class DetailViewController: UIViewController {
             let navController = segue.destination as! UINavigationController
             let destinationVC = navController.childViewControllers[0] as! EditMemeViewController
             destinationVC.EditMode = true
-            destinationVC.memeIndex = memeIndex
+            destinationVC.meme = meme!
         }
     }
 }

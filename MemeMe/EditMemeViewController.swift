@@ -11,9 +11,10 @@ import UIKit
 
 class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
-    var memesLocal: [Meme]!
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var EditMode = true
-    var memeIndex: Int!
+    var meme: Meme?
+    //var memeIndex: Int!
 
     @IBOutlet weak var imageViewImage: UIImageView?
     
@@ -36,9 +37,8 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
             NSStrokeWidthAttributeName : NSNumber(value: -3.0 as Float)
         ]
         
-        let object = UIApplication.shared.delegate
-        let appDelegate = object as! AppDelegate
-        memesLocal = appDelegate.memes
+        
+        //memesLocal = appDelegate.memes
         
         //Sets the look of the text fields
         topTextField.defaultTextAttributes = memeTextAttributes
@@ -52,10 +52,10 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         bottomTextField.delegate = self
         
         // Sets requirements for Edit Mode vs New Meme Mode
-        if EditMode == true {
-            topTextField.text = memesLocal[memeIndex].top
-            bottomTextField.text = memesLocal[memeIndex].bottom
-            imageViewImage?.image = memesLocal[memeIndex].image
+        if let meme = meme {
+            topTextField.text = meme.topString
+            bottomTextField.text = meme.bottomString
+            imageViewImage?.image = UIImage(data: meme.originalImage as Data)
             
         } else {
             shareButton.isEnabled = false
@@ -103,14 +103,13 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     // Share button
     @IBAction func share (_ sender: UIBarButtonItem) {
         view.endEditing(true)
-        let meme = Meme(top: topTextField.text, bottom: bottomTextField.text, image: imageViewImage!.image)
-        let memedImage = meme.generateMeme()
-        let activityController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
+        self.save()
+        
+        let activityController = UIActivityViewController(activityItems: [meme!.memeImage], applicationActivities: nil)
         activityController.completionWithItemsHandler = {activity, completed, items, error in
             if !completed {
                 return
             } else {
-                self.save()
                 self.cancelButton.isEnabled = true
                 self.performSegue(withIdentifier: "SegueToMemeList", sender: self)
             }
@@ -120,14 +119,16 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     
     // Cancel button
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "SegueToMemeList", sender: self)
+        //performSegue(withIdentifier: "SegueToMemeList", sender: self)
+        dismiss(animated: true, completion: nil)
     }
     
     // Save button
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
         save()
         cancelButton.isEnabled = true
-        performSegue(withIdentifier: "SegueToMemeList", sender: self)
+        //performSegue(withIdentifier: "SegueToMemeList", sender: self)
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -184,15 +185,23 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     // Saves the meme to array of memes in app delegate
     func save() {
         //Create the meme
-        let meme = Meme(top: topTextField.text, bottom: bottomTextField.text, image: imageViewImage!.image)
-        if EditMode == true {
-            (UIApplication.shared.delegate as! AppDelegate).memes[memeIndex] = (meme)
+        if let meme = meme {
+            meme.lastModified = Date()
+            meme.bottomString = bottomTextField.text
+            meme.topString = topTextField.text
+            meme.originalImage = UIImagePNGRepresentation(imageViewImage!.image!)!
+            meme.memeImage = MemeGenerator().generateMeme(top: topTextField.text!, bottom: bottomTextField.text!, image: imageViewImage!.image!)
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
         } else {
-            (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
+            meme = Meme(context: context)
+            meme!.dateCreated = Date()
+            meme!.lastModified = meme!.dateCreated
+            meme!.bottomString = bottomTextField.text
+            meme!.topString = topTextField.text
+            meme!.originalImage = UIImagePNGRepresentation(imageViewImage!.image!)!
+            meme!.memeImage = MemeGenerator().generateMeme(top: topTextField.text!, bottom: bottomTextField.text!, image: imageViewImage!.image!)
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
         }
-        let object = UIApplication.shared.delegate
-        let appDelegate = object as! AppDelegate
-        memesLocal = appDelegate.memes
     }
 }
 
