@@ -193,7 +193,7 @@
 					0133B46C1AF7F36E001D74FC = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = B44P43AC6Y;
-						LastSwiftMigration = 0940;
+						LastSwiftMigration = 1010;
 					};
 					0133B4811AF7F36F001D74FC = {
 						CreatedOnToolsVersion = 6.3;
@@ -393,8 +393,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = MemeMe;
 				PROVISIONING_PROFILE = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -411,8 +410,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = MemeMe;
 				PROVISIONING_PROFILE = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

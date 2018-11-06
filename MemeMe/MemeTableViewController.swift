@@ -124,7 +124,7 @@ class MemeTableViewController: UITableViewController, NSFetchedResultsController
             destinationVC.meme = fetchedResultsController.object(at: tableView.indexPathForSelectedRow!) as? Meme
         } else if segue.identifier == "SegueAddMeme" {
             let navController = segue.destination as! UINavigationController
-            let destinationVC = navController.childViewControllers[0] as! EditMemeViewController
+            let destinationVC = navController.children[0] as! EditMemeViewController
             destinationVC.EditMode = false
         }
     }

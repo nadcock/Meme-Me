@@ -22,12 +22,12 @@ class MemeGenerator {
         
         //Setups up the font attributes that will be later used to dictate how the text should be drawn
         let textFontAttributes = [
-            NSAttributedStringKey.strokeColor : UIColor.black,
-            NSAttributedStringKey.foregroundColor : UIColor.white,
-            NSAttributedStringKey.paragraphStyle: paraStyle,
+            NSAttributedString.Key.strokeColor : UIColor.black,
+            NSAttributedString.Key.foregroundColor : UIColor.white,
+            NSAttributedString.Key.paragraphStyle: paraStyle,
             
-            NSAttributedStringKey.font : UIFont(name: "HelveticaNeue-CondensedBlack", size: image.size.height / 10)!,
-            NSAttributedStringKey.strokeWidth : NSNumber(value: -3.0 as Float)
+            NSAttributedString.Key.font : UIFont(name: "HelveticaNeue-CondensedBlack", size: image.size.height / 10)!,
+            NSAttributedString.Key.strokeWidth : NSNumber(value: -3.0 as Float)
         ]
         
         // Finds the size of the rect the text will draw with the attributes
@@ -47,7 +47,7 @@ class MemeGenerator {
         
         // Create a new image out of the images created
         let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        let imageData: Data = UIImagePNGRepresentation(newImage)!
+        let imageData: Data = newImage.pngData()!
         
         // End the context
         UIGraphicsEndImageContext()

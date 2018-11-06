@@ -19,9 +19,9 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         
 
-        let editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.edit))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let deleteButton = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailViewController.deleteButton))
+        let editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItem.Style.plain, target: self, action: #selector(DetailViewController.edit))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let deleteButton = UIBarButtonItem(title: "Delete", style: UIBarButtonItem.Style.plain, target: self, action: #selector(DetailViewController.deleteButton))
 
         
         bottomToolbar.items?.append(editButton)
@@ -65,11 +65,11 @@ class DetailViewController: UIViewController {
     //called when delete button pressed
     @objc func deleteButton () {
 
-        let deleteConfirm = UIAlertController(title: "Confirm Delete", message: "Are you sure you want to permanently delete this meme?", preferredStyle: UIAlertControllerStyle.actionSheet)
-        deleteConfirm.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
+        let deleteConfirm = UIAlertController(title: "Confirm Delete", message: "Are you sure you want to permanently delete this meme?", preferredStyle: UIAlertController.Style.actionSheet)
+        deleteConfirm.addAction(UIAlertAction(title: "Delete", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
             self.delete()
         }))
-        deleteConfirm.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in
+        deleteConfirm.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
         }))
         
         present(deleteConfirm, animated: true, completion: nil)
@@ -92,7 +92,7 @@ class DetailViewController: UIViewController {
         
         if segue.identifier == "SegueEditMeme" {
             let navController = segue.destination as! UINavigationController
-            let destinationVC = navController.childViewControllers[0] as! EditMemeViewController
+            let destinationVC = navController.children[0] as! EditMemeViewController
             destinationVC.EditMode = true
             destinationVC.meme = meme!
         }
