@@ -58,12 +58,12 @@ class DetailViewController: UIViewController {
     }
     
     //called when edit button pressed
-    func edit() {
+    @objc func edit() {
         performSegue(withIdentifier: "SegueEditMeme", sender: self)
     }
     
     //called when delete button pressed
-    func deleteButton () {
+    @objc func deleteButton () {
 
         let deleteConfirm = UIAlertController(title: "Confirm Delete", message: "Are you sure you want to permanently delete this meme?", preferredStyle: UIAlertControllerStyle.actionSheet)
         deleteConfirm.addAction(UIAlertAction(title: "Delete", style: UIAlertActionStyle.default, handler: { (action: UIAlertAction!) in

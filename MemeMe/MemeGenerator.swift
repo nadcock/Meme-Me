@@ -18,16 +18,16 @@ class MemeGenerator {
         UIGraphicsBeginImageContext(image.size)
         
         let paraStyle = NSMutableParagraphStyle()
-        paraStyle.alignment = NSTextAlignment.center
+        paraStyle.alignment = .center
         
         //Setups up the font attributes that will be later used to dictate how the text should be drawn
         let textFontAttributes = [
-            NSStrokeColorAttributeName : UIColor.black,
-            NSForegroundColorAttributeName : UIColor.white,
-            NSParagraphStyleAttributeName: paraStyle,
+            NSAttributedStringKey.strokeColor : UIColor.black,
+            NSAttributedStringKey.foregroundColor : UIColor.white,
+            NSAttributedStringKey.paragraphStyle: paraStyle,
             
-            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: image.size.height / 10)!,
-            NSStrokeWidthAttributeName : NSNumber(value: -3.0 as Float)
+            NSAttributedStringKey.font : UIFont(name: "HelveticaNeue-CondensedBlack", size: image.size.height / 10)!,
+            NSAttributedStringKey.strokeWidth : NSNumber(value: -3.0 as Float)
         ]
         
         // Finds the size of the rect the text will draw with the attributes

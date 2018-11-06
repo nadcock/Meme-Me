@@ -29,12 +29,12 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let memeTextAttributes = [
-            NSStrokeColorAttributeName : UIColor.black,
-            NSForegroundColorAttributeName : UIColor.white,
+        let memeTextAttributes: [String : Any] = [
+            NSAttributedStringKey.strokeColor.rawValue : UIColor.black,
+            NSAttributedStringKey.foregroundColor.rawValue : UIColor.white,
             
-            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName : NSNumber(value: -3.0 as Float)
+            NSAttributedStringKey.font.rawValue : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSAttributedStringKey.strokeWidth.rawValue : NSNumber(value: -3.0 as Float)
         ]
         
         
@@ -146,7 +146,7 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         dismiss(animated: true, completion: nil)
     }
     
-    func shiftViewForKeyboard(_ notification: Notification) {
+    @objc func shiftViewForKeyboard(_ notification: Notification) {
         if (bottomTextField.isFirstResponder){
             if notification.name == Notification.Name.UIKeyboardWillHide {
                 view.frame.origin.y = 0
@@ -187,6 +187,11 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         view.endEditing(true)
         return false
     }
+    
+//    func updateMemePreview() {
+//
+//        imageViewImage?.image = MemeGenerator().generateMeme(top: topTextField.text!, bottom: bottomTextField.text!, image: imageViewImage!.image!)
+//    }
 
     
     // Saves the meme to array of memes in app delegate
@@ -220,7 +225,7 @@ extension UIViewController
         view.addGestureRecognizer(tap)
     }
     
-    func dismissKeyboard(_ sender: UITapGestureRecognizer)
+    @objc func dismissKeyboard(_ sender: UITapGestureRecognizer)
     {
         view.endEditing(true)
     }
