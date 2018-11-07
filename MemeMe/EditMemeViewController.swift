@@ -159,11 +159,10 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
     
-//    func keyboardWillHide(_ notification: Notification) {
-//        if (bottomTextField.isFirstResponder){
-//            
-//        }
-//    }
+    @objc func completedEditing(_ notification: Notification) {
+        updateMemePreview()
+    }
+    
     
     func getKeyboardHeight(_ notification: Notification) -> CGFloat {
         let userInfo = notification.userInfo
@@ -174,6 +173,7 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.shiftViewForKeyboard(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.shiftViewForKeyboard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditMemeViewController.completedEditing(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {
@@ -188,10 +188,12 @@ class EditMemeViewController: UIViewController, UIImagePickerControllerDelegate,
         return false
     }
     
-//    func updateMemePreview() {
-//
-//        imageViewImage?.image = MemeGenerator().generateMeme(top: topTextField.text!, bottom: bottomTextField.text!, image: imageViewImage!.image!)
-//    }
+    func updateMemePreview() {
+        guard let image = imageViewImage?.image else {
+            return
+        }
+        imageViewImage?.image = UIImage(data: MemeGenerator().generateMeme(top: topTextField.text!, bottom: bottomTextField.text!, image: image))
+    }
 
     
     // Saves the meme to array of memes in app delegate
